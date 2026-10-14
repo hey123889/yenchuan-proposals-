@@ -4,141 +4,323 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>圓川 × Bobi Boba｜專案總入口</title>
+<meta name="theme-color" content="#522c18">
+<title>沅川 × Bobi Boba｜專案總入口</title>
+<link rel="preload" href="fonts/montserrat-var-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
-:root{--ink:#1d1a16;--soft:#5c554b;--line:#e3ddd0;--bg:#faf8f3;--gold:#c99a00;--goldbg:#f6e7b4;--brown:#3a2214}
+@font-face{font-family:"Montserrat";src:url("fonts/montserrat-var-latin.woff2") format("woff2");font-weight:100 900;font-display:swap;unicode-range:U+0000-00FF,U+2013-2014,U+2018-201D}
+@font-face{font-family:"YC Head";src:url("fonts/noto-sans-tc-800-head.woff2") format("woff2");font-weight:700 900;font-display:swap}
+:root{
+  --brown:#522c18;--brown-2:#6a3a20;--gold:#e1ae03;--gold-deep:#c99800;--ink:#1d1a16;--paper:#ffffff;--paper-2:#f4efe6;
+  --line:#e6dccb;--soft:#5f564a;--cream:#fdf3d8;
+  --zh:"Microsoft JhengHei","PingFang TC","Noto Sans TC","Heiti TC",sans-serif;
+  --ui:"Montserrat",var(--zh);
+  --head:"Montserrat","YC Head",var(--zh);
+  --num:"Montserrat",var(--zh);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --wrap:1180px;--gut:clamp(18px,4vw,40px);
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif}
-::selection{background:#f3d36b}
-a{color:inherit}
-:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
-header{background:var(--brown);color:#fff8e8;padding:44px 0 36px}
-header .date{font-size:14px;color:#e8d6b4}
-h1{font-size:clamp(28px,4.4vw,44px);line-height:1.2;margin:6px 0 10px}
-header p{margin:0;max-width:60ch;color:#f1dfc0}
-section{padding:44px 0 0}
-h2{font-size:clamp(22px,3vw,28px);margin:0 0 6px}
-.sub{color:var(--soft);margin:0 0 20px;max-width:64ch}
-.concl{display:grid;gap:0;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
-.concl .row{display:grid;grid-template-columns:170px 1fr 1fr;gap:18px;padding:16px 20px;border-bottom:1px solid var(--line)}
-.concl .row:last-child{border-bottom:0}
-.concl b{font-size:17px}
-.concl .now{color:var(--soft)}
-.concl .todo{font-weight:700}
-.ask{background:var(--goldbg);border-radius:12px;padding:20px 22px}
-.ask ol{margin:8px 0 0;padding-left:22px}
-.ask li{margin:4px 0}
-.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.doc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px}
-.doc h3{margin:0;font-size:19px}
-.doc p{margin:0;color:var(--soft);font-size:15px;flex:1}
-.doc .lnk{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
-.btn{display:inline-block;font-weight:700;text-decoration:none;padding:9px 18px;border-radius:999px;background:var(--ink);color:#fff;font-size:15px;transition:background .2s}
-.btn:hover{background:#3a332a}
+html{scrollbar-color:var(--brown) var(--paper-2);scrollbar-width:thin}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.7 var(--ui);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--gold);color:var(--ink)}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:var(--paper-2)}::-webkit-scrollbar-thumb{background:var(--brown);border-radius:10px;border:2px solid var(--paper-2)}
+a{color:var(--brown);text-underline-offset:.22em;text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+:focus-visible{outline:3px solid var(--brown);outline-offset:3px;border-radius:2px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+.num{font-family:var(--num);font-variant-numeric:tabular-nums lining-nums}
+.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:#fff;padding:8px 14px;z-index:50}
+.skip:focus{left:8px}
+
+/* 頁首：沅川咖啡色 */
+.shell{background:var(--brown);color:var(--cream)}
+.shell .wrap{display:flex;align-items:center;gap:18px;min-height:64px}
+.shell img{display:block;height:34px;width:auto}
+.shell .title{font-weight:700;letter-spacing:.04em;font-size:15px;color:#fff;padding-left:18px;border-left:1px solid rgba(253,243,216,.35)}
+.shell .meta{margin-left:auto;font-size:14px;color:#f1dcb8}
+
+/* 指示牌 */
+.sign{background:var(--gold);color:var(--ink);border-bottom:1px solid var(--gold-deep);padding:clamp(26px,4vw,44px) var(--gut)}
+.sign .wrap{padding:0;max-width:calc(var(--wrap) - 2 * var(--gut));display:grid;grid-template-columns:1fr auto;gap:24px 48px;align-items:center}
+.sign-main{display:grid;grid-template-columns:auto 1fr;gap:clamp(16px,2.4vw,28px);align-items:start}
+.pict{width:clamp(56px,7vw,92px);aspect-ratio:1;background:var(--ink);display:grid;place-items:center;border-radius:6px}
+.pict svg{width:62%;height:62%}
+.sign h1,h2,h3,.sign .who,.mini .t,.count .unit,.grp td{font-family:var(--head)}
+.sign h1{margin:0;font-size:clamp(30px,5.6vw,68px);line-height:1.1;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+.nw{white-space:nowrap}
+.sign .who{margin:12px 0 0;font-size:clamp(18px,2vw,22px);font-weight:700}
+.sign .who span{display:inline-block;background:var(--ink);color:var(--gold);padding:1px 10px;border-radius:4px;margin-right:6px}
+.sign .how{margin:8px 0 0;font-size:16px;max-width:52ch;color:#3a2d12}
+.count{text-align:right;line-height:1}
+.count .big{font-weight:800;font-size:clamp(64px,10vw,132px);letter-spacing:-.03em;display:block}
+.count .big i{font-style:normal;color:#4a3800}
+.count .unit{display:block;margin-top:10px;font-size:17px;font-weight:700}
+
+/* 黏頂細指示帶（招牌互動） */
+.mini{position:fixed;inset:0 0 auto 0;z-index:40;background:var(--gold);border-bottom:1px solid var(--gold-deep);box-shadow:0 6px 18px -10px rgba(29,26,22,.45);transform:translateY(-110%);transition:transform .42s var(--ease)}
+.mini.on{transform:none}
+.mini .wrap{display:flex;align-items:center;gap:12px;min-height:52px;font-weight:700}
+.mini .pict{width:32px;border-radius:4px}
+.mini .t{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;gap:8px;min-width:0}
+.mini .t b{font-weight:800}
+.mini .whom{background:var(--ink);color:var(--gold);padding:2px 8px;border-radius:4px;font-size:14px}
+.mini .c{margin-left:auto;white-space:nowrap;font-size:15px}
+.mini .c .num{font-weight:800;font-size:20px}
+
+/* 區段節奏 */
+main section{padding-top:clamp(48px,6vw,80px)}
+h2{margin:0 0 18px;font-size:clamp(22px,2.4vw,28px);line-height:1.3;font-weight:800;letter-spacing:.01em;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h2 .pict{width:30px;border-radius:4px;flex:none}
+.ar{display:inline-block;width:.9em;height:.9em;vertical-align:-.08em;color:var(--soft)}
+h2 .ar{color:var(--ink);width:.85em;height:.85em}
+h2 small{font-size:15px;font-weight:700;color:var(--soft);margin-left:10px;letter-spacing:0}
+
+/* 您要給的／我們這邊 */
+.duo{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(28px,5vw,72px)}
+.list{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.list li{display:grid;grid-template-columns:5.6em 1fr;gap:14px;padding:14px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.list li .what{font-size:16px}
+.list li .what b{font-weight:700}
+.list li .why{display:block;font-size:14px;color:var(--soft);margin-top:2px}
+.list li.first{background:linear-gradient(var(--cream),var(--cream));margin:0 -12px;padding-left:12px;padding-right:12px}
+.st{display:inline-flex;align-items:center;justify-content:center;gap:5px;font-size:13px;font-weight:700;line-height:1;padding:6px 8px;border-radius:4px;white-space:nowrap}
+.st-wait{background:var(--ink);color:var(--gold)}
+.st-done{background:var(--brown);color:var(--cream)}
+.st-done svg{width:12px;height:12px}
+.st-hold{box-shadow:inset 0 0 0 1px var(--ink);color:var(--ink)}
+.later{margin:14px 0 0;font-size:15px;color:var(--soft)}
+.later b{color:var(--ink)}
+
+/* 現在 → 目標 */
+.board table{width:100%;border-collapse:collapse;table-layout:fixed}
+.board col.c-item{width:32%}.board col.c-now{width:13%}.board col.c-ar{width:6%}.board col.c-goal{width:19%}
+.board th{font-size:14px;color:var(--soft);font-weight:700;text-align:left;padding:0 12px 10px 0;border-bottom:2px solid var(--ink)}
+.board td{padding:14px 12px 14px 0;border-bottom:1px solid var(--line);vertical-align:baseline}
+.board td.now,.board td.goal{font-family:var(--num);font-variant-numeric:tabular-nums;font-weight:800;font-size:24px;white-space:nowrap}
+.board td.now,.board th.now{text-align:right}
+.board td.arrow{text-align:center}
+.board td.goal{color:var(--brown)}
+.board td.arrow .ar{width:18px;height:18px}
+.board td.goal small,.board td.now small{font-family:var(--zh);font-size:14px;font-weight:700;margin-left:2px}
+.board td.who{font-size:14px;color:var(--soft)}
+.board .grp td{padding-top:26px;padding-bottom:10px;border-bottom:0}
+.board .grp span{display:inline-block;background:var(--ink);color:var(--gold);font-weight:800;font-size:15px;padding:4px 10px;border-radius:4px}
+
+/* 報告 */
+.docs ol{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.docs li{display:grid;grid-template-columns:1fr auto;gap:8px 28px;align-items:center;padding:18px 0;border-bottom:1px solid var(--line)}
+.docs h3{margin:0;font-size:20px;font-weight:800}
+.docs p{margin:4px 0 0;color:var(--soft);font-size:15px}
+.acts{display:flex;gap:10px}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border-radius:999px;font-weight:700;font-size:15px;text-decoration:none;background:var(--ink);color:#fff;transition:background .25s var(--ease),color .25s var(--ease)}
+.btn:hover{background:var(--brown)}
 .btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
 .btn.line:hover{background:var(--ink);color:#fff}
-.demo{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px}
-.demo img{width:100%;height:auto;display:block;border-radius:8px}
-.demo table{border-collapse:collapse;width:100%;font-size:15px;margin:8px 0 14px}
-.demo th,.demo td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
-.demo th{color:var(--soft);font-weight:700}
-.styles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.st{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s}
-.st:hover{transform:translateY(-3px);box-shadow:0 16px 30px -18px rgba(29,26,22,.45)}
-.st img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block}
-.st div{padding:12px 14px}
-.st b{display:block}
-.st span{font-size:14px;color:var(--soft)}
-.tag{display:inline-block;font-size:13px;font-weight:700;background:#e3e9f1;color:#3c4a5c;padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.step{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px}
-.step h3{margin:0 0 6px;font-size:18px}
-.step ul{margin:0;padding-left:20px;color:var(--soft);font-size:15px}
-.method{margin-top:44px;font-size:14px;color:var(--soft);border-top:1px solid var(--line);padding:18px 0 48px}
+.btn svg{width:16px;height:16px}
+
+/* 示範 */
+.demo .grid{display:grid;grid-template-columns:1.25fr 1fr;gap:clamp(24px,4vw,56px);align-items:center}
+.demo figure{margin:0}
+.demo img{display:block;width:100%;height:auto;border-radius:6px;box-shadow:0 18px 40px -26px rgba(29,26,22,.55)}
+.demo figcaption{font-size:14px;color:var(--soft);margin-top:8px}
+.demo dl{display:grid;grid-template-columns:1fr auto auto auto;margin:0 0 22px;border-top:2px solid var(--ink)}
+.demo dt,.demo dd{margin:0;padding:12px 0;border-bottom:1px solid var(--line)}
+.demo dt{font-size:15px}
+.demo dd{font-family:var(--num);font-weight:800;font-size:22px;text-align:right;padding-left:14px;font-variant-numeric:tabular-nums}
+.demo dd.from{color:var(--soft);font-weight:600;font-size:18px}
+.demo dd.arr{padding-left:12px}.demo dd.arr .ar{width:16px;height:16px}
+.demo .lead{margin:0 0 16px;color:var(--soft);max-width:46ch}
+
+/* 改版參考 */
+.tag{display:inline-block;vertical-align:middle;font-size:13px;font-weight:700;padding:4px 8px;border-radius:4px;box-shadow:inset 0 0 0 1px var(--soft);color:var(--soft);margin-left:10px;letter-spacing:0}
+.refs .lead{margin:-6px 0 18px;color:var(--soft)}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.strip a{display:block;text-decoration:none;color:var(--ink)}
+.strip img{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:6px;box-shadow:inset 0 0 0 1px var(--line);transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+.strip a:hover img{transform:translateY(-3px);box-shadow:0 16px 30px -20px rgba(29,26,22,.5)}
+.strip b{display:block;margin-top:10px;font-size:16px}
+.strip span{font-size:14px;color:var(--soft)}
+
+/* 更新紀錄 */
+.log ul{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.log li{display:grid;grid-template-columns:7.5em 1fr;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.log time{font-family:var(--num);font-weight:700;color:var(--soft)}
+
+footer{margin-top:clamp(56px,7vw,96px);background:var(--brown);color:#f1dcb8}
+footer .wrap{display:flex;align-items:center;gap:24px;padding-top:28px;padding-bottom:28px;flex-wrap:wrap}
+footer img{height:44px;width:auto}
+footer p{margin:0;font-size:14px}
+
 @media (max-width:900px){
-  .concl .row{grid-template-columns:1fr;gap:4px}
-  .docs,.steps{grid-template-columns:1fr}
-  .demo{grid-template-columns:1fr}
-  .styles{grid-template-columns:1fr 1fr}
+  .duo,.demo .grid{grid-template-columns:1fr}
+  .strip{grid-template-columns:1fr 1fr}
+  .docs li{grid-template-columns:1fr}
 }
-@media (max-width:520px){.styles{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .shell .meta,.shell .pair{display:none}
+  .shell img{height:28px}
+  .pict{width:48px}
+  .sign-main{gap:14px}
+  .board col.c-item{width:34%}.board col.c-now{width:28%}.board col.c-ar{width:7%}.board col.c-goal{width:31%}.board col.c-who{width:0}
+  .sign .wrap{grid-template-columns:1fr}
+  .count{text-align:left;display:flex;align-items:baseline;gap:12px;padding-left:62px}
+  .count .unit{margin:0}
+  .mini .c span.l,.mini .pre{display:none}
+  .board td.who,.board th.who{display:none}
+  .board td.now,.board td.goal{font-size:18px}
+  .board td{padding-right:6px}
+  .list li{grid-template-columns:1fr;gap:6px}
+  .list li .st{justify-self:start}
+  .log li{grid-template-columns:1fr;gap:2px}
+}
+@media (prefers-reduced-motion:reduce){.mini{transition:none}.strip img,.btn{transition:none}}
 </style>
 </head>
 <body>
-<header>
+<a class="skip" href="#todo">跳到清單</a>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="arrow" viewBox="0 0 48 48"><path d="M8 24h28M24 11l13 13-13 13" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="square"/></symbol>
+  <symbol id="check" viewBox="0 0 16 16"><path d="M2.5 8.5l3.5 3.5 7.5-8" fill="none" stroke="currentColor" stroke-width="2.4"/></symbol>
+  <symbol id="arr" viewBox="0 0 24 24"><path d="M3 12h15M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"/></symbol>
+  <symbol id="dl" viewBox="0 0 16 16"><path d="M8 2v8M4 6.5 8 10.5l4-4M3 14h10" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+</svg>
+
+<header class="shell">
   <div class="wrap">
-    <div class="date">2026-10-14 更新　第一階段</div>
-    <h1>圓川 × Bobi Boba｜專案總入口</h1>
-    <p>報告、示範網頁、改版參考都在這裡。手機與電腦皆可瀏覽，報告可下載 PDF 拿去開會。</p>
+    <img src="brand/yenchuan-footer-cht.svg" width="96" height="34" alt="沅川 YENCHUAN.CO">
+    <span class="title">專案總入口<span class="pair">（沅川 × Bobi Boba）</span></span>
+    <span class="meta">最後更新 <span class="num">2026-10-14</span></span>
   </div>
 </header>
 
-<main class="wrap">
-  <section aria-labelledby="t1">
-    <h2 id="t1">結論</h2>
-    
-    <div class="concl">
-      <div class="row"><b>Amazon</b><span class="now">新款有貨（US$21），舊款無法購買；新款文案有 2 句可能被視為健康宣稱</span><span class="todo">第一個月就由我們代為營運，先改文案、確認主力商品頁、每週回報</span></div>
-      <div class="row"><b>官網</b><span class="now">手機 87 分、電腦 97 分，和 7 家同業比速度第一</span><span class="todo">不需重做；Webflow 團隊處理 7 件小事＋1 個錯字，影片優先</span></div>
-      <div class="row"><b>商店</b><span class="now">手機 58 分，三個網站中最弱</span><span class="todo">5 件修正，先做最重要的 3 件</span></div>
-      <div class="row"><b>同業</b><span class="now">7 家都沒把「怎麼跟台灣工廠下單」講清楚</span><span class="todo">做一頁英文「下單方式與樣品」，最快拉開差距</span></div>
+<section class="sign" id="sign" aria-labelledby="next">
+  <div class="wrap">
+    <div class="sign-main">
+      <span class="pict" aria-hidden="true"><svg><use href="#arrow"/></svg></span>
+      <div>
+        <h1 id="next">開 Amazon <span class="nw">子帳號</span></h1>
+        <p class="who"><span>輪到陳 Sir</span>本週</p>
+        <p class="how">後台「新增使用者」：先開看數據，第 2 週加開編輯商品頁；不開付款與帳戶設定。開好後我們 3 個工作天內交文案修改稿。</p>
+      </div>
     </div>
-  </section>
+    <p class="count" aria-label="本週 7 項，已提供 0 項"><span class="big num">0<i>/</i>7</span><span class="unit">項已提供</span></p>
+  </div>
+</section>
 
-  <section aria-labelledby="t2">
-    <div class="ask">
-      <h2 id="t2">本週請陳 Sir 回覆</h2>
-      <ol>
-        <li>Amazon 子帳號（後台「新增使用者」）：先開看數據，第 2 週加開編輯商品頁；不開付款與帳戶設定</li>
-        <li>庫存數量與補貨時間</li>
-        <li>兩款糖漿的標籤照片</li>
-        <li>指定一位同事，負責核准與回覆詢價</li>
-        <li>Google Analytics、Search Console、WordPress 權限</li>
-        <li>Webflow 團隊窗口</li>
-        <li>首頁影片原始檔</li>
+<div class="mini" id="mini" aria-hidden="true">
+  <div class="wrap">
+    <span class="pict"><svg><use href="#arrow"/></svg></span>
+    <span class="t"><span class="pre">下一步：</span><b>開 Amazon 子帳號</b><span class="whom">輪到陳 Sir</span></span>
+    <span class="c"><span class="num">0/7</span> <span class="l">項已提供</span></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <section class="duo" id="todo">
+    <div>
+      <h2><span class="pict" aria-hidden="true"><svg><use href="#arrow"/></svg></span>您要給的 7 項<small>本週</small></h2>
+      <ol class="list">
+        <li class="first"><span class="st st-wait">待提供</span><span class="what"><b>Amazon 子帳號（後台「新增使用者」）：先開看數據，第 2 週加開編輯商品頁；不開付款與帳戶設定</b><span class="why">代營運的第一步</span></span></li>
+        <li><span class="st st-wait">待提供</span><span class="what">庫存數量與補貨時間<span class="why">缺貨預警、進貨建議</span></span></li>
+        <li><span class="st st-wait">待提供</span><span class="what">兩款糖漿的標籤照片<span class="why">文案修改的依據</span></span></li>
+        <li><span class="st st-wait">待提供</span><span class="what">指定一位同事，負責核准與回覆詢價<span class="why">日常修改不必每件都找您</span></span></li>
+        <li><span class="st st-wait">待提供</span><span class="what">Google Analytics、Search Console、WordPress 權限<span class="why">詢價追蹤、補上文章的網站地圖</span></span></li>
+        <li><span class="st st-wait">待提供</span><span class="what">Webflow 團隊窗口<span class="why">第 1 週先換首頁影片</span></span></li>
+        <li><span class="st st-wait">待提供</span><span class="what">首頁影片原始檔<span class="why">沒有原始檔就無法換成高畫質</span></span></li>
+      </ol>
+      <p class="later"><b>第 2 週前</b>：樣品、最低訂購量、付款、交期的規則。<b>之後</b>：Amazon 品牌註冊與廣告預算。</p>
+    </div>
+    <div>
+      <h2><span class="pict" aria-hidden="true"><svg><use href="#arrow"/></svg></span>我們這邊</h2>
+      <ol class="list">
+        <li><span class="st st-done"><svg aria-hidden="true"><use href="#check"/></svg>已完成</span><span class="what">三份報告、優化示範、改版參考<span class="why">10 月 14 日上線</span></span></li>
+        <li><span class="st st-hold">等子帳號</span><span class="what">交 Amazon 文案修改稿<span class="why">收到子帳號後 3 個工作天內</span></span></li>
+        <li><span class="st st-hold">等權限</span><span class="what">設定詢價追蹤<span class="why">記錄送出報價、索取樣品、點 LINE</span></span></li>
+        <li><span class="st st-hold">等原始檔</span><span class="what">請 Webflow 團隊換首頁高畫質影片<span class="why">第 1 週處理</span></span></li>
       </ol>
     </div>
   </section>
 
-  <section aria-labelledby="t3">
-    <h2 id="t3">報告</h2>
-    
-    <div class="docs">
-      <div class="doc"><h3>第一階段報告與 90 天計畫</h3><p>結論、Amazon 第一個月、分數目標、90 天計畫、費用、回覆清單。</p><div class="lnk"><a class="btn" href="report-main.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-main.pdf">PDF</a></div></div>
-      <div class="doc"><h3>網站優化清單</h3><p>Webflow 團隊 7 件＋1 個錯字、商店 5 件、順序與示範數字。</p><div class="lnk"><a class="btn" href="report-website.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-website.pdf">PDF</a></div></div>
-      <div class="doc"><h3>Amazon 代營運說明</h3><p>分工、Amazon 官方 AI 工具、現況、同業對照、商品頁要改的 5 件事。</p><div class="lnk"><a class="btn" href="report-amazon.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-amazon.pdf">PDF</a></div></div>
-    </div>
+  <section class="board" aria-labelledby="t-board">
+    <h2 id="t-board" aria-label="現在到目標"><span class="pict" aria-hidden="true"><svg><use href="#arrow"/></svg></span>現在 <svg class="ar" aria-hidden="true"><use href="#arr"/></svg> 目標</h2>
+    <table>
+      <colgroup><col class="c-item"><col class="c-now"><col class="c-ar"><col class="c-goal"><col class="c-who"></colgroup>
+      <thead><tr><th>項目</th><th class="now">現在</th><th></th><th>目標</th><th class="who">誰負責</th></tr></thead>
+      <tbody>
+        <tr class="grp"><td colspan="5"><span>Amazon（Bobi Boba 新款黑糖糖漿）</span></td></tr>
+        <tr><td>可能違規的文案</td><td class="now">2<small>句</small></td><td class="arrow"><svg class="ar" aria-label="目標為"><use href="#arr"/></svg></td><td class="goal">0<small>句</small></td><td class="who">我們，第 2 週</td></tr>
+        <tr><td>食品類排名</td><td class="now">#82,331</td><td class="arrow"><svg class="ar" aria-label="目標為"><use href="#arr"/></svg></td><td class="goal"><small>第 4 週依數據訂</small></td><td class="who">我們</td></tr>
+        <tr class="grp"><td colspan="5"><span>網站（Google 測速分數）</span></td></tr>
+        <tr><td>官網．手機</td><td class="now">87</td><td class="arrow"><svg class="ar" aria-label="目標為"><use href="#arr"/></svg></td><td class="goal">90<small>以上</small></td><td class="who">Webflow 團隊</td></tr>
+        <tr><td>官網．電腦</td><td class="now">97</td><td class="arrow"><svg class="ar" aria-label="目標為"><use href="#arr"/></svg></td><td class="goal"><small>維持</small></td><td class="who">—</td></tr>
+        <tr><td>商店．手機</td><td class="now">58</td><td class="arrow"><svg class="ar" aria-label="目標為"><use href="#arr"/></svg></td><td class="goal">80<small>以上</small></td><td class="who">我們或公司同事</td></tr>
+        <tr><td>商店．電腦</td><td class="now">86</td><td class="arrow"><svg class="ar" aria-label="目標為"><use href="#arr"/></svg></td><td class="goal">90<small>以上</small></td><td class="who">我們或公司同事</td></tr>
+      </tbody>
+    </table>
   </section>
 
-  <section aria-labelledby="t4">
-    <h2 id="t4">優化示範：保留原設計，只修速度</h2>
-    <p class="sub">版面完全不變，只改圖片大小與載入順序；左下角標示是哪一版。</p>
-    <div class="demo">
-      <img src="thumbs/original.jpg" width="960" height="600" alt="圓川官網首頁畫面：奶茶背景與主標題">
+  <section class="docs" aria-labelledby="t-docs">
+    <h2 id="t-docs"><span class="pict" aria-hidden="true"><svg><use href="#arrow"/></svg></span>報告</h2>
+    <ol>
+      <li><div><h3>第一階段報告與 90 天計畫</h3><p>結論、Amazon 第一個月、分數目標、90 天計畫、費用、回覆清單。</p></div><div class="acts"><a class="btn" href="report-main.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-main.pdf"><svg aria-hidden="true"><use href="#dl"/></svg>PDF</a></div></li>
+      <li><div><h3>網站優化清單</h3><p>Webflow 團隊 7 件＋1 個錯字、商店 5 件、順序與示範數字。可直接轉給 Webflow 團隊。</p></div><div class="acts"><a class="btn" href="report-website.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-website.pdf"><svg aria-hidden="true"><use href="#dl"/></svg>PDF</a></div></li>
+      <li><div><h3>Amazon 代營運說明</h3><p>分工、Amazon 官方 AI 工具、現況、同業對照、商品頁要改的 5 件事。</p></div><div class="acts"><a class="btn" href="report-amazon.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-amazon.pdf"><svg aria-hidden="true"><use href="#dl"/></svg>PDF</a></div></li>
+    </ol>
+  </section>
+
+  <section class="demo" aria-labelledby="t-demo">
+    <h2 id="t-demo"><span class="pict" aria-hidden="true"><svg><use href="#arrow"/></svg></span>優化示範：版面不變，只修速度</h2>
+    <div class="grid">
+      <figure>
+        <img src="thumbs/original.jpg" width="960" height="600" loading="lazy" alt="沅川官網首頁畫面：奶茶與珍珠的主視覺">
+        <figcaption>兩頁外觀完全相同，左下角標示是哪一版。</figcaption>
+      </figure>
       <div>
-        <table>
-          <tr><th></th><th>原版</th><th>優化版</th></tr>
-          <tr><td>手機分數</td><td>89</td><td><b>93</b></td></tr>
-          <tr><td>手機主要畫面出現</td><td>3.0 秒</td><td><b>2.6 秒</b></td></tr>
-          <tr><td>電腦版頁面大小</td><td>13.4 MB</td><td><b>4.6 MB</b></td></tr>
-        </table>
-        <div class="lnk" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn line" href="demo/original.html">開啟原版</a><a class="btn" href="demo/optimized.html">開啟優化版</a></div>
+        <p class="lead">只改看不到的地方：壓縮大圖、防機器人驗證等客人點到表單才載入、補圖片說明、只載入用到的字型。同一台電腦、同樣條件各量 3 次。</p>
+        <dl>
+          <dt>手機分數</dt><dd class="from">89</dd><dd class="arr"><svg class="ar" aria-label="改善為"><use href="#arr"/></svg></dd><dd>93</dd>
+          <dt>主要畫面出現</dt><dd class="from">3.0 s</dd><dd class="arr"><svg class="ar" aria-label="改善為"><use href="#arr"/></svg></dd><dd>2.6 s</dd>
+          <dt>電腦版頁面大小</dt><dd class="from">13.4 MB</dd><dd class="arr"><svg class="ar" aria-label="改善為"><use href="#arr"/></svg></dd><dd>4.6 MB</dd>
+        </dl>
+        <div class="acts"><a class="btn line" href="demo/original.html">開啟原版</a><a class="btn" href="demo/optimized.html">開啟優化版</a></div>
       </div>
     </div>
   </section>
 
-  <section aria-labelledby="t5">
-    <h2 id="t5">改版風格參考 <span class="tag">不在這次範圍內</span></h2>
-    <p class="sub">供未來改版時參考，現階段維持原設計。</p>
-    <div class="styles">
-      <a class="st" href="https://www.yenchuan.co/" target="_blank" rel="noopener"><img src="thumbs/original.jpg" width="960" height="600" loading="lazy" alt="現行官網首頁畫面"><div><b>現行官網</b><span>比較基準</span></div></a>
-      <a class="st" href="b-menu-wall.html"><img src="thumbs/b.jpg" width="960" height="600" loading="lazy" alt="提案 B 飲料菜單牆首頁畫面"><div><b>B 飲料菜單牆</b><span>寫給已營業的店老闆</span></div></a>
-      <a class="st" href="b-menu-wall-motion.html"><img src="thumbs/b-motion.jpg" width="960" height="600" loading="lazy" alt="提案 B 動態版：捲動時飲品輪流出場"><div><b>B 動態版</b><span>慢慢往下捲看動畫</span></div></a>
-      <a class="st" href="c-stockroom.html"><img src="thumbs/c.jpg" width="960" height="600" loading="lazy" alt="提案 C 倉儲貨架首頁畫面"><div><b>C 倉儲貨架</b><span>寫給經銷商、進口商</span></div></a>
+  <section class="refs" aria-labelledby="t-refs">
+    <h2 id="t-refs"><span class="pict" aria-hidden="true"><svg><use href="#arrow"/></svg></span>改版參考<span class="tag">不在這次範圍內</span></h2>
+    <p class="lead">未來改版時參考用，內容與商品取自現行網站；現階段維持原設計。</p>
+    <div class="strip">
+      <a href="https://www.yenchuan.co/" target="_blank" rel="noopener"><img src="thumbs/original.jpg" width="960" height="600" loading="lazy" alt="現行官網首頁"><b>現行官網</b><span>比較基準</span></a>
+      <a href="b-menu-wall.html"><img src="thumbs/b.jpg" width="960" height="600" loading="lazy" alt="改版參考 B：飲料菜單牆"><b>B 飲料菜單牆</b><span>寫給已營業的店老闆</span></a>
+      <a href="b-menu-wall-motion.html"><img src="thumbs/b-motion.jpg" width="960" height="600" loading="lazy" alt="改版參考 B 動態版：捲動時飲品輪流出場"><b>B 動態版</b><span>慢慢往下捲看動畫</span></a>
+      <a href="c-stockroom.html"><img src="thumbs/c.jpg" width="960" height="600" loading="lazy" alt="改版參考 C：倉儲貨架"><b>C 倉儲貨架</b><span>寫給經銷商、進口商</span></a>
     </div>
   </section>
 
+  <section class="log" aria-labelledby="t-log">
+    <h2 id="t-log"><span class="pict" aria-hidden="true"><svg><use href="#arrow"/></svg></span>更新紀錄</h2>
+    <ul>
+      <li><time class="num" datetime="2026-10-14">2026-10-14</time><span>第一階段報告上線：主報告、網站優化清單、Amazon 代營運說明（網頁版與 PDF）。</span></li>
+      <li><time class="num" datetime="2026-10-14">2026-10-14</time><span>數字更正：先前提供的「手機 17–19 秒」是我們量測用的電腦受到干擾，已作廢。正確為官網手機 87 分、主要畫面 3.3 秒。</span></li>
+    </ul>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap">
+    <img src="brand/yenchuan-footer-cht.svg" width="124" height="44" alt="沅川 YENCHUAN.CO">
+    <p>本頁供沅川內部參考，不開放搜尋引擎收錄。有問題直接在 LINE 回覆即可。</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var sign=document.getElementById('sign'),mini=document.getElementById('mini');
+  if(!('IntersectionObserver' in window))return;
+  new IntersectionObserver(function(e){mini.classList.toggle('on',!e[0].isIntersecting&&e[0].boundingClientRect.top<0)},{threshold:0}).observe(sign);
+})();
+</script>
 </body>
 </html>
