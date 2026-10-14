@@ -4,89 +4,152 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>圓川官網｜改版提案</title>
+<title>圓川 × Bobi Boba｜專案總入口</title>
 <style>
-:root{--ink:#1d1a16;--soft:#5c554b;--line:#e3ddd0;--bg:#faf8f3;--gold:#c99a00}
+:root{--ink:#1d1a16;--soft:#5c554b;--line:#e3ddd0;--bg:#faf8f3;--gold:#c99a00;--goldbg:#f6e7b4;--brown:#3a2214}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.7 "Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif}
 ::selection{background:#f3d36b}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:3px}
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
-header{padding:56px 0 30px;border-bottom:1px solid var(--line)}
-h1{font-size:clamp(28px,4vw,44px);line-height:1.2;margin:0 0 12px;letter-spacing:.01em}
-header p{margin:0;color:var(--soft);max-width:62ch}
-.note{margin-top:14px;font-size:14px;color:var(--soft)}
-.list{display:grid;gap:56px;padding:48px 0 72px}
-.item{display:grid;grid-template-columns:1.25fr 1fr;gap:36px;align-items:center}
-.item:nth-child(2n) .shot{order:2}
-.shot{display:block;border-radius:10px;overflow:hidden;box-shadow:0 18px 40px -20px rgba(29,26,22,.45);transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s}
-.shot:hover{transform:translateY(-4px);box-shadow:0 26px 50px -22px rgba(29,26,22,.5)}
-.shot img{display:block;width:100%;height:auto}
-h2{font-size:26px;line-height:1.3;margin:0 0 6px}
-.who{display:inline-block;font-size:14px;font-weight:700;color:#7a5c00;background:#f6e7b4;padding:3px 10px;border-radius:6px;margin-bottom:12px}
-.who.ref{color:#3c4a5c;background:#e3e9f1}
-.item p{margin:0 0 10px;color:var(--soft)}
-.item dl{margin:14px 0 18px;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:15px}
-.item dt{font-weight:700}
-.item dd{margin:0;color:var(--soft)}
-.go{display:inline-block;font-weight:700;text-decoration:none;background:var(--ink);color:#fff;padding:12px 22px;border-radius:999px;transition:background .2s}
-.go:hover{background:#3a332a}
-.go.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
-.go.line:hover{background:var(--ink);color:#fff}
-footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--soft);font-size:14px}
-@media (max-width:820px){.item{grid-template-columns:1fr;gap:18px}.item:nth-child(2n) .shot{order:0}}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+header{background:var(--brown);color:#fff8e8;padding:44px 0 36px}
+header .date{font-size:14px;color:#e8d6b4}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.2;margin:6px 0 10px}
+header p{margin:0;max-width:60ch;color:#f1dfc0}
+section{padding:44px 0 0}
+h2{font-size:clamp(22px,3vw,28px);margin:0 0 6px}
+.sub{color:var(--soft);margin:0 0 20px;max-width:64ch}
+.concl{display:grid;gap:0;border:1px solid var(--line);border-radius:12px;background:#fff;overflow:hidden}
+.concl .row{display:grid;grid-template-columns:170px 1fr 1fr;gap:18px;padding:16px 20px;border-bottom:1px solid var(--line)}
+.concl .row:last-child{border-bottom:0}
+.concl b{font-size:17px}
+.concl .now{color:var(--soft)}
+.concl .todo{font-weight:700}
+.ask{background:var(--goldbg);border-radius:12px;padding:20px 22px}
+.ask ol{margin:8px 0 0;padding-left:22px}
+.ask li{margin:4px 0}
+.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.doc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:8px}
+.doc h3{margin:0;font-size:19px}
+.doc p{margin:0;color:var(--soft);font-size:15px;flex:1}
+.doc .lnk{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.btn{display:inline-block;font-weight:700;text-decoration:none;padding:9px 18px;border-radius:999px;background:var(--ink);color:#fff;font-size:15px;transition:background .2s}
+.btn:hover{background:#3a332a}
+.btn.line{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.line:hover{background:var(--ink);color:#fff}
+.demo{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px}
+.demo img{width:100%;height:auto;display:block;border-radius:8px}
+.demo table{border-collapse:collapse;width:100%;font-size:15px;margin:8px 0 14px}
+.demo th,.demo td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+.demo th{color:var(--soft);font-weight:700}
+.styles{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.st{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;transition:transform .3s cubic-bezier(.16,1,.3,1),box-shadow .3s}
+.st:hover{transform:translateY(-3px);box-shadow:0 16px 30px -18px rgba(29,26,22,.45)}
+.st img{width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;object-position:top;display:block}
+.st div{padding:12px 14px}
+.st b{display:block}
+.st span{font-size:14px;color:var(--soft)}
+.tag{display:inline-block;font-size:13px;font-weight:700;background:#e3e9f1;color:#3c4a5c;padding:2px 8px;border-radius:6px;margin-left:6px;vertical-align:middle}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.step{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.step h3{margin:0 0 6px;font-size:18px}
+.step ul{margin:0;padding-left:20px;color:var(--soft);font-size:15px}
+.method{margin-top:44px;font-size:14px;color:var(--soft);border-top:1px solid var(--line);padding:18px 0 48px}
+@media (max-width:900px){
+  .concl .row{grid-template-columns:1fr;gap:4px}
+  .docs,.steps{grid-template-columns:1fr}
+  .demo{grid-template-columns:1fr}
+  .styles{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){.styles{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
-    <h1>圓川官網｜首頁改版提案</h1>
-    <p>先看現行官網，再看改版方向（B 另有動態版）。提案的商品、食譜與聯絡方式皆取自現行網站，分別寫給不同類型的買家。電腦與手機皆可瀏覽。</p>
-    <p class="note">提案僅供未來改版討論，不是正式網站，也不影響現行網站。</p>
+    <div class="date">2026-10-14 更新　第一階段</div>
+    <h1>圓川 × Bobi Boba｜專案總入口</h1>
+    <p>報告、示範網頁、改版參考都在這裡。手機與電腦皆可瀏覽，報告可下載 PDF 拿去開會。</p>
   </div>
 </header>
-<main class="wrap list">
-  <article class="item">
-    <a class="shot" href="https://www.yenchuan.co/" target="_blank" rel="noopener"><img src="thumbs/original.jpg" width="960" height="600" alt="現行圓川官網首頁畫面：奶茶背景影片與主標題"></a>
-    <div>
-      <span class="who ref">對照：現行官網</span>
-      <h2>原版｜www.yenchuan.co</h2>
-      <p>目前正式上線的首頁，作為比較基準。</p>
-      <a class="go line" href="https://www.yenchuan.co/" target="_blank" rel="noopener">開啟現行官網</a>
+
+<main class="wrap">
+  <section aria-labelledby="t1">
+    <h2 id="t1">結論</h2>
+    <p class="sub">詳細內容見《第一階段報告與 90 天計畫》。</p>
+    <div class="concl">
+      <div class="row"><b>Amazon</b><span class="now">新款有貨（US$21），舊款無法購買；新款文案有 2 句可能被視為健康宣稱</span><span class="todo">第一個月就由我們代為營運，先改文案、確認主力商品頁、每週回報</span></div>
+      <div class="row"><b>官網</b><span class="now">手機 87 分、電腦 97 分，和 7 家同業比速度第一</span><span class="todo">不需重做；Webflow 團隊處理 7 件小事＋1 個錯字，影片優先</span></div>
+      <div class="row"><b>商店</b><span class="now">手機 58 分，三個網站中最弱</span><span class="todo">5 件修正，先做最重要的 3 件</span></div>
+      <div class="row"><b>同業</b><span class="now">7 家都沒把「怎麼跟台灣工廠下單」講清楚</span><span class="todo">做一頁英文「下單方式與樣品」，最快拉開差距</span></div>
     </div>
-  </article>
-  <article class="item">
-    <a class="shot" href="b-menu-wall.html"><img src="thumbs/b.jpg" width="960" height="600" alt="提案 B 飲料菜單牆首頁畫面：金色燈箱菜單上的四杯飲品"></a>
-    <div>
-      <span class="who">寫給：已營業的店老闆</span>
-      <h2>提案 B｜飲料菜單牆</h2>
-      <p>不賣原料，賣「可以放上你菜單的飲料」。台灣手搖店燈箱菜單的樣子，每杯飲料都列出用到的圓川商品。與現行網站配色最接近，手機閱讀順暢。</p>
-      <dl><dt>試試看</dt><dd>點「甜度冰塊」那排按鈕篩選飲料</dd></dl>
-      <a class="go" href="b-menu-wall.html">開啟提案 B</a>
+  </section>
+
+  <section aria-labelledby="t2">
+    <div class="ask">
+      <h2 id="t2">本週請陳 Sir 回覆</h2>
+      <ol>
+        <li>Amazon <b>子帳號</b>（後台「新增使用者」）：先開「看數據」，第 2 週加開「編輯商品頁」，不開付款與帳戶設定</li>
+        <li>庫存數量與補貨時間（新款、舊款、DIY Kit）</li>
+        <li>兩款糖漿的標籤照片</li>
+        <li>指定一位同事：負責核准 Amazon 修改、回覆詢價</li>
+        <li>網站後台權限（Google Analytics、WordPress）</li>
+        <li>Webflow 團隊的聯絡窗口</li>
+        <li>首頁影片的原始檔（換高畫質用）</li>
+      </ol>
+      <p style="margin:10px 0 0;font-size:15px">第 2 週前：樣品、最低訂購量、付款、交期的實際規則。</p>
     </div>
-  </article>
-  <article class="item">
-    <a class="shot" href="b-menu-wall-motion.html"><img src="thumbs/b-motion.jpg" width="960" height="600" alt="提案 B 動態版：捲動時背景變色、飲品輪替出場的招牌飲品區"></a>
-    <div>
-      <span class="who">寫給：已營業的店老闆</span>
-      <h2>提案 B｜飲料菜單牆（動態版）</h2>
-      <p>和 B 同樣的內容，加上像現行官網一樣的捲動動畫：標題逐行浮現、跑馬燈、往下捲時四杯招牌飲品輪流登場，背景顏色跟著變換。</p>
-      <dl><dt>試試看</dt><dd>慢慢往下捲，看飲品與背景輪替</dd></dl>
-      <a class="go" href="b-menu-wall-motion.html">開啟動態版</a>
+  </section>
+
+  <section aria-labelledby="t3">
+    <h2 id="t3">報告</h2>
+    <p class="sub">網頁版可直接閱讀，PDF 適合轉給同事或開會使用。</p>
+    <div class="docs">
+      <div class="doc"><h3>第一階段報告與 90 天計畫</h3><p>結論、Amazon 代營運第一個月、分數目標、同業可學之處、90 天計畫、費用、回覆清單。</p><div class="lnk"><a class="btn" href="report-main.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-main.pdf">PDF</a></div></div>
+      <div class="doc"><h3>網站優化清單</h3><p>給 Webflow 團隊的 7 件＋1 個錯字（含工時）、商店 5 件、優化示範數字、建議順序。</p><div class="lnk"><a class="btn" href="report-website.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-website.pdf">PDF</a></div></div>
+      <div class="doc"><h3>Amazon 代營運說明</h3><p>AI 做什麼、需要什麼權限、同業對照、買家評論、商品頁要改的 5 件事、可寫與不可寫的說法。</p><div class="lnk"><a class="btn" href="report-amazon.html">閱讀</a><a class="btn line" href="pdf/yenchuan-report-amazon.pdf">PDF</a></div></div>
     </div>
-  </article>
-  <article class="item">
-    <a class="shot" href="c-stockroom.html"><img src="thumbs/c.jpg" width="960" height="600" alt="提案 C 倉儲貨架首頁畫面：貨架上的六個牛皮紙箱"></a>
-    <div>
-      <span class="who">寫給：經銷商、進口商</span>
-      <h2>提案 C｜倉儲貨架</h2>
-      <p>整條產品線就是一排貨架上的圓川紙箱，一眼掃完六大類，翻箱就看到品項與整箱規格。</p>
-      <dl><dt>試試看</dt><dd>點紙箱上的「Turn」翻到背面</dd></dl>
-      <a class="go" href="c-stockroom.html">開啟提案 C</a>
+  </section>
+
+  <section aria-labelledby="t4">
+    <h2 id="t4">優化示範：保留原設計，只修速度</h2>
+    <p class="sub">兩頁外觀相同，版面完全不變，只改看不到的地方（圖片大小、載入順序）；左下角標示是哪一版。在同一台電腦、同樣條件下比較。</p>
+    <div class="demo">
+      <img src="thumbs/original.jpg" width="960" height="600" alt="圓川官網首頁畫面：奶茶背景與主標題">
+      <div>
+        <table>
+          <tr><th></th><th>原版</th><th>優化版</th></tr>
+          <tr><td>手機分數</td><td>89</td><td><b>93</b></td></tr>
+          <tr><td>手機主要畫面出現</td><td>3.0 秒</td><td><b>2.6 秒</b></td></tr>
+          <tr><td>電腦版頁面大小</td><td>13.4 MB</td><td><b>4.6 MB</b></td></tr>
+        </table>
+        <div class="lnk" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn line" href="demo/original.html">開啟原版</a><a class="btn" href="demo/optimized.html">開啟優化版</a></div>
+      </div>
     </div>
-  </article>
+  </section>
+
+  <section aria-labelledby="t5">
+    <h2 id="t5">改版風格參考 <span class="tag">不在這次範圍內</span></h2>
+    <p class="sub">供未來改版時參考，內容與商品取自現行網站。現階段維持原設計。</p>
+    <div class="styles">
+      <a class="st" href="https://www.yenchuan.co/" target="_blank" rel="noopener"><img src="thumbs/original.jpg" width="960" height="600" loading="lazy" alt="現行官網首頁畫面"><div><b>現行官網</b><span>比較基準</span></div></a>
+      <a class="st" href="b-menu-wall.html"><img src="thumbs/b.jpg" width="960" height="600" loading="lazy" alt="提案 B 飲料菜單牆首頁畫面"><div><b>B 飲料菜單牆</b><span>寫給已營業的店老闆</span></div></a>
+      <a class="st" href="b-menu-wall-motion.html"><img src="thumbs/b-motion.jpg" width="960" height="600" loading="lazy" alt="提案 B 動態版：捲動時飲品輪流出場"><div><b>B 動態版</b><span>慢慢往下捲看動畫</span></div></a>
+      <a class="st" href="c-stockroom.html"><img src="thumbs/c.jpg" width="960" height="600" loading="lazy" alt="提案 C 倉儲貨架首頁畫面"><div><b>C 倉儲貨架</b><span>寫給經銷商、進口商</span></div></a>
+    </div>
+  </section>
+
+  <section aria-labelledby="t6">
+    <h2 id="t6">進度與下一步</h2>
+    <div class="steps">
+      <div class="step"><h3>已完成</h3><ul><li>三個網站實測與 7 家同業比較</li><li>Amazon 公開資料分析</li><li>官網優化示範</li><li>改版風格參考</li><li>90 天計畫</li></ul></div>
+      <div class="step"><h3>第 1 個月</h3><ul><li>Amazon 代營運：改文案、確認主力商品頁、每週回報</li><li>網站詢價追蹤設定</li><li>英文「下單方式與樣品」頁</li><li>Webflow 團隊處理影片等 7 件</li></ul></div>
+      <div class="step"><h3>第 2–3 個月</h3><ul><li>商店手機版修正</li><li>舊文章加上「索取報價」</li><li>Amazon 標題與圖片優化</li><li>「台灣製造與代工」證明頁</li></ul></div>
+    </div>
+  </section>
+
+  <p class="method">這份報告由 8 個 AI 從不同角度各自分析、互相挑毛病，另一個 AI 專門找漏洞，最後由人逐項核對事實。Amazon 與同業的主要數字以 10 月 14 日查詢為準，價格會變動。</p>
 </main>
-<footer><div class="wrap">© Yen Chuan International Co., Ltd. 提案內容與照片取自圓川現行網站，僅供改版討論使用。</div></footer>
 </body>
 </html>
