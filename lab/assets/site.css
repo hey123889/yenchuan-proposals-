@@ -62,3 +62,4 @@ h2 small{font-size:.9rem;color:var(--muted);font-weight:500}h2 a{text-decoration
 .ml-switch{margin-top:20px;font-size:.9rem}.cta .ml-switch a{color:var(--gold)}
 [dir=rtl] .hero::after{background:linear-gradient(0deg,rgba(43,25,15,.85),rgba(43,25,15,.25) 70%)}
 .page img{max-width:min(100%,420px);max-height:360px;width:auto;object-fit:contain}.page img[src$=".svg"]{max-width:72px;max-height:72px}
+html[lang=zh-Hant] body,html[lang=zh-Hant] h1,html[lang=zh-Hant] h2,html[lang=zh-Hant] h3{font-family:"Noto Sans TC","Microsoft JhengHei",Poppins,sans-serif}html[lang=zh-Hant] .eyebrow{letter-spacing:.05em}
