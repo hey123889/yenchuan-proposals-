@@ -555,5 +555,12 @@
  "https://www.yenchuan.co/service": "/service/",
  "https://www.yenchuan.co/faq": "/faq/",
  "https://www.yenchuan.co/contact": "/contact/",
- "https://www.yenchuan.co/privacy-policy": "/privacy-policy/"
+ "https://www.yenchuan.co/privacy-policy": "/privacy-policy/",
+ "https://store.yenchuan.co/faq/": "/info/faq/",
+ "https://store.yenchuan.co/terms-condition/": "/info/terms-condition/",
+ "https://store.yenchuan.co/privacy-policy-2/": "/info/privacy-policy-2/",
+ "https://store.yenchuan.co/services/customization/": "/info/customization/",
+ "https://store.yenchuan.co/services/getting-started/": "/info/getting-started/",
+ "https://store.yenchuan.co/services/": "/info/services/",
+ "https://store.yenchuan.co/about-us/": "/info/about-us/"
 }
