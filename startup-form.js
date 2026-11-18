@@ -1,35 +1,78 @@
 (()=>{'use strict';
+// needs-v2-core-20261117：8題同頁textarea（id=answer-<短碼>），一顆送出鍵，原生HTML POST到Google表單。
+// 不動態產生題目/圖/選單；使用者文字只用 value / textContent。
+const FORM_ACTION='https://docs.google.com/forms/d/e/1FAIpQLSdWfMr8rY7zN8K-zuc5h8jNrIANophaIlzvJWxDwr-WUS5HhA/formResponse';
+const SOURCE_TAG='needs-v2-core-20261117';
+const KEY='yenchuan-startup-answers-v1',MAX_LEN=3000,LOCK_MS=3000;
 const topics=[
-{id:'site',label:'官網呈現',done:'研發首頁、服務流程與內容整合試作已可看；研發/合站方向已定。',gap:'正式採用的頁面內容與可公開素材仍待公司確認，不必這次一次備齊。',question:'這版首頁哪一段需要調整？希望換成怎樣的內容？',outcome:'首頁第一屏清楚呈現沅川的食品飲品研發服務，並讓訪客找到商品或詢價入口；本題回饋用來調整下一版試作。',verify:'看第一屏能辨認研發服務，商品/詢價入口可到達；仍需公司核對案例與正式採用內容。',previews:[{img:'home-after.jpg',cap:'首頁試作（既有英文介面截圖）'}]},
-{id:'mobile',label:'手機操作',done:'飲品卡可展開用料，第一張可連到原配方；可先直接試。',gap:'公司實際使用時的一處具體回饋；正式站仍未改。',question:'試用時哪一步不順？希望點下去看到什麼？沒有問題也可寫「先沿用試作」。',outcome:'手機點飲品卡可看到用料，再進入完整配方；要調整的操作不應被選單或畫面遮住。',verify:'手機點「查看製作方式」能展開用料，配方入口可開啟；目前第一張已可試，其它回饋逐一確認。',previews:[{img:'howto-after.jpg',cap:'手機做法展開用料（既有英文舊圖；實頁為中文）'}]},
-{id:'content',label:'商品與文章',done:'商品/文章已集中查找，文章列表有搜尋與分頁，內容稿與查核表已備。',gap:'同款商品事實、用語與哪份內容先核對；不把草稿當正式發布。',question:'商品或文章中，先核對哪個頁面或用語？想改成什麼？',outcome:'商品與文章在同一試作入口可分類、搜尋與分頁，頁面用語對應同款資料。',verify:'從分類或搜尋找到指定內容，能開到正確詳頁；同款標籤/用語仍須核對，稿件不當正式發布。',previews:[{img:'catalog-after.jpg',cap:'商品分類試作列表'},{img:'articles-after.jpg',cap:'文章列表試作（含待核示範稿）'}]},
-{id:'language',label:'語言與譯文',done:'已做英、中、西、阿四語介面，阿文右到左；原文內容有標示。',gap:'具體頁面的譯文核對與公司用語；不重新選語言方向。',question:'已做的語系中，哪個頁面先核對譯文？哪一句需要調整？',outcome:'各語系的導航方向與用語一致；阿文商品卡從右起排，未翻的原文有標示。',verify:'中文流程不跳成英文導航，阿文卡片順序正確；具體譯文仍需公司或合適讀者核稿。',previews:[{img:'zh-navigation-after.jpg',cap:'中文導航試作'},{img:'arabic-products-after.jpg',cap:'阿文商品卡試作（從右起排）'}]},
-{id:'sample',label:'樣品與付款',done:'樣品到付款的流程畫面已備好，尚不能真實收款。',gap:'公司確認的樣品情境/規則，正式串接及權限之後另安排。',question:'樣品詢價到付款，先想處理哪種情境？希望有哪些確認步驟？',outcome:'客人知道怎麼選樣品、送出需求及哪些規則須公司確認；正式付款須另獲授權並接妥金流。',verify:'先演練樣品與確認流程；目前畫面不能下單收款，真金流接通後才另驗實際付款。',previews:[{img:'sample-after.jpg',cap:'樣品流程試作畫面（未接金流，不能付款）'}]},
-{id:'inquiry',label:'詢價AI',done:'固定規則分類與草稿可演練；報價/交期/例外須人工核可的方向已定。',gap:'具體常見情境與公司答案；AI、信箱、WhatsApp尚未接通。',question:'先用哪一種常見詢價練習？希望先整理哪些資訊，再交人確認？請勿貼客人個資。',outcome:'常見詢價能整理成可交接的需求摘要；價格、交期與例外先交人工確認，不猜答案。',verify:'用同一案例看摘要是否收齊必要資訊及待核項；目前僅演練，真AI/信箱接通後才另驗收發。',previews:[{img:'inquiry-after.jpg',cap:'詢價試作畫面（未接真AI／信箱／WhatsApp）'}]},
-{id:'amazon',label:'Amazon（後續）',done:'公開策略、商品內容稿、成本/補貨試算與空白表已備；不是已接後台。',gap:'合法報表/標籤/成本才可診斷真實問題；實際操作另核可，本題可先跳過。',question:'後續最想釐清哪一個商品、庫存或內容問題？目前看到什麼現象？',outcome:'有合法報表與成本後，能按款列出問題、依據及行動順序；無資料的部分保持未知。',verify:'結論可對回商品/期間/來源及計算；不憑空報銷量或利潤，改價/投放另核。這題尚無後台預覽。',previews:[],none:'沒有。目前沒接 Amazon 後台，也不拿官網圖充數。',link:{href:'report-amazon.html',text:'看既有Amazon公開分析'}},
-{id:'market',label:'美國採購（後續）',done:'研究、候選名單、未寄開場信與官方資料清單已備。',gap:'具體買家/樣品/交易條件；沒有寄信、寄樣或成交，本題可先跳過。',question:'後續先想服務哪一類買家？想先處理哪個採購或樣品情境？',outcome:'買家能看懂適用的採購/樣品條件與下一步；候選名單和已驗需求分開，不當作成交。',verify:'箱規、付款與交期等條件有來源或待核標示；未聯絡/寄樣/成交不寫成已做，此題尚無流程預覽。',previews:[],none:'沒有。目前沒有美國採購的預覽畫面，也不拿官網圖充數。',link:{href:'report-us-market.html',text:'看既有美國市場研究'}}];
-const comparisons=[
-{id:'howto',label:'手機做法展開',topic:'mobile',before:'howto-before.jpg',after:'howto-after.jpg',beforeLabel:'改前：原官網手機畫面',afterLabel:'改後：手機試作展開用料（既有英文介面截圖）',change:'從點了不展開，改成可展開用料與配方入口。',limit:'圖片取自先前查核/試作；目前連結是中文介面。改後不是正式官網已修改。'},
-{id:'home',label:'研發首頁呈現',topic:'site',before:'home-before.jpg',after:'home-after.jpg',beforeLabel:'改前：原官網首頁',afterLabel:'改後：研發首頁試作（英文介面截圖）',change:'研發介紹與服務流程前置，不只看到飲品主視覺。',limit:'這是整張視覺/內容試作參考，不是正式站已採用；不重問研發方向。'},
-{id:'catalog',label:'商品分類查找',topic:'content',before:'catalog-before.jpg',after:'catalog-after.jpg',beforeLabel:'改前：原商城粉類頁',afterLabel:'改後：試作粉類列表',change:'在整合試作中分類查找、搜尋與分頁。',limit:'只證明試作介面；正式商品/會員/訂單仍須另接。'},
-{id:'articles',label:'文章搜尋與分頁',topic:'content',before:'articles-before.jpg',after:'articles-after.jpg',beforeLabel:'改前：上一版試作長列表',afterLabel:'改後：目前試作文章列表',change:'增加可搜尋與分頁的中文列表，較容易查文章。',limit:'這組比較的是兩版試作，不是原官網；部分內容為原文或待核示範稿。'},
-{id:'zh',label:'中文導航',topic:'language',before:'zh-navigation-before.jpg',after:'zh-navigation-after.jpg',beforeLabel:'改前：上一版中文試作',afterLabel:'改後：目前中文導航試作',change:'中文選單與站內流程維持中文介面。',limit:'比較的是兩版試作；商品/文章原文不代表已全篇翻譯。'},
-{id:'ar',label:'阿拉伯文排版',topic:'language',before:'arabic-products-before.jpg',after:'arabic-products-after.jpg',beforeLabel:'改前：上一版阿文商品卡，從左起排',afterLabel:'改後：試作商品卡從右起排',change:'阿文商品卡改為依右到左的順序排列。',limit:'比較的是兩版試作；這是排版，不代表全部內容已完成翻譯或真人語言核稿。'},
-{id:'inquiry',label:'詢價畫面',topic:'inquiry',before:'inquiry-before.jpg',after:'inquiry-after.jpg',beforeLabel:'改前：上一版試作英文詢價畫面',afterLabel:'改後：目前中文詢價試作',change:'用表單欄位先整理國家、用量、交期等詢價內容。',limit:'兩圖都是試作。改前圖的十分鐘/AI回覆字樣是舊文案，不是本輪承諾；目前未接真AI/信箱/WhatsApp，不會實際寄信。'},
-{id:'sample',label:'樣品付款流程',topic:'sample',before:'sample-before.jpg',after:'sample-after.jpg',beforeLabel:'改前：原商城商品的加入詢價',afterLabel:'改後：試作樣品流程畫面',change:'備好樣品選擇到付款的流程外觀。',limit:'只是試作畫面，未接金流、未收款，不代表可直接購買。'}];
-const $=id=>document.getElementById(id),KEY='yenchuan-startup-answers-v1';let current=0,answers={},retention=false;
-function message(t){$('save-status').textContent=t;}
-function save(){if(!retention){message('填答只留在本頁；是否送達以Google確認頁為準。');return;}try{localStorage.setItem(KEY,JSON.stringify({schema:1,answers,current,savedAt:new Date().toISOString()}));message('草稿只存這台裝置；是否送達以Google確認頁為準。');}catch{message('本機無法保存；本頁答案仍在，送出後請看Google確認頁，勿直接重整。');}}
-function rememberAnswer(){const v=$('answer').value.trim();if(v)answers[topics[current].id]=v;else delete answers[topics[current].id];save();}
-function renderPreview(t){const list=$('preview-list'),none=$('preview-none'),ps=t.previews||[];list.replaceChildren();none.replaceChildren();$('preview-title').textContent=ps.length?'目前試作畫面（不是按本次填答新生成）':'目前試作畫面：沒有';none.hidden=ps.length>0;for(const p of ps){const f=document.createElement('figure'),a=document.createElement('a'),i=document.createElement('img'),c=document.createElement('figcaption');a.href=i.src='assets/compare/'+p.img;a.target='_blank';a.rel='noopener noreferrer';i.loading='lazy';i.alt=p.cap;c.textContent=p.cap;a.append(i);f.append(a,c);list.append(f);}if(!ps.length){none.append(document.createTextNode((t.none||'沒有。')+' '));if(t.link){const a=document.createElement('a');a.href=t.link.href;a.textContent=t.link.text;none.append(a);}}}
-function render(focus=false){const t=topics[current];renderPreview(t);$('topic-select').value=t.id;$('outcome').textContent=t.outcome;$('verify').textContent=t.verify;$('step').textContent='目前主題 '+(current+1)+'／'+topics.length+'，可只填一題';$('question-title').textContent=t.question;$('done').textContent=t.done;$('gap').textContent=t.gap;$('answer').value=answers[t.id]||'';if(focus){$('question-title').tabIndex=-1;$('question-title').focus({preventScroll:true});}}
-function go(index){rememberAnswer();current=index;render();save();}
-for(const t of topics){const o=document.createElement('option');o.value=t.id;o.textContent=t.label;$('topic-select').append(o);}$('topic-select').onchange=()=>go(topics.findIndex(t=>t.id===$('topic-select').value));
-if($('compare-topic')){for(const c of comparisons){const o=document.createElement('option');o.value=c.id;o.textContent=c.label;$('compare-topic').append(o);}const showComparison=()=>{const c=comparisons.find(x=>x.id===$('compare-topic').value)||comparisons[0];for(const side of ['before','after']){const url='assets/compare/'+c[side],caption=c[side+'Label'];$('compare-'+side).src=url;$('compare-'+side).alt=caption;$('compare-'+side+'-link').href=url;$('compare-'+side+'-caption').textContent=caption;}$('compare-change').textContent=c.change;$('compare-limit').textContent=c.limit;};$('compare-topic').onchange=()=>{showComparison();const c=comparisons.find(x=>x.id===$('compare-topic').value)||comparisons[0];go(topics.findIndex(t=>t.id===c.topic));};showComparison();}
-$('answer').addEventListener('input',rememberAnswer);
-$('remember').onchange=()=>{retention=$('remember').checked;if(!retention){try{localStorage.removeItem(KEY);}catch{}message('已取消本機保存，本頁填答仍在；是否送達以Google確認頁為準。');}else save();};
-function summary(){const rows=['沅川｜下一步需求填答','這是需求描述，不是正式執行/採購/發布核可。','填寫日期：'+new Date().toLocaleDateString('zh-TW'),''];for(const t of topics)if(answers[t.id])rows.push('【'+t.label+'】',answers[t.id],'');rows.push('只列已填主題；未填不代表同意，也不視為取消。','來源：v2單鍵需求頁；送達以Google確認頁及專案回覆紀錄為準。');return rows.join('\n');}
-$('send-request').onclick=()=>{rememberAnswer();const filled=topics.filter(t=>answers[t.id]);if(!filled.length){$('export-status').textContent='至少寫一個主題再送出；其他主題可先留白。';return;}const text=summary();const form=document.createElement('form');form.method='POST';form.action='https://docs.google.com/forms/d/e/1FAIpQLSdWfMr8rY7zN8K-zuc5h8jNrIANophaIlzvJWxDwr-WUS5HhA/formResponse';form.target='_blank';form.setAttribute('rel','noopener noreferrer');form.style.display='none';const fields={'entry.1789974636':filled.length===1?filled[0].label:'多主題：'+filled.map(t=>t.label).join('、'),'entry.1266581977':text,'entry.963595698':'needs-v2-single-submit-20261117','fvv':'1','pageHistory':'0'};for(const [name,value]of Object.entries(fields)){const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.append(input);}document.body.append(form);try{form.submit();$('save-status').textContent='原頁保留草稿；是否送達以Google確認頁為準，若已確認請勿重複提交。';$('export-status').textContent='正在另開Google確認頁；請以其「需求已收到」訊息為準。原頁保留答案，若已確認收到請勿重複送出。';$('send-request').disabled=true;setTimeout(()=>{$('send-request').disabled=false;form.remove();},3000);}catch{form.remove();$('export-status').textContent='未能開啟提交頁；答案仍在本頁，請確認沒有收到Google確認後再試，這次未標成成功。';}};
-try{const raw=localStorage.getItem(KEY);if(raw){const d=JSON.parse(raw);if(d.schema===1&&d.answers&&typeof d.answers==='object'){for(const t of topics)if(typeof d.answers[t.id]==='string')answers[t.id]=d.answers[t.id].slice(0,3000);current=Number.isInteger(d.current)&&d.current>=0&&d.current<topics.length?d.current:0;retention=true;$('remember').checked=true;message('已載入本機草稿；沒有從伺服器取回任何答案。');}}}catch{message('無法讀取本機草稿，可直接填寫並送出需求。');}
-render();if(!$('save-status').textContent)message('可只填一題後送出；以Google確認頁為準，原頁保留答案。');
+{id:'site',label:'官網呈現'},
+{id:'mobile',label:'手機操作'},
+{id:'content',label:'商品與文章'},
+{id:'language',label:'語言與譯文'},
+{id:'sample',label:'樣品與付款'},
+{id:'inquiry',label:'詢價AI'},
+{id:'amazon',label:'Amazon（後續）'},
+{id:'market',label:'美國採購（後續）'}];
+const $=id=>document.getElementById(id);
+const field=t=>$('answer-'+t.id);
+let retention=false,locked=false;
+function setText(id,text){const n=$(id);if(n)n.textContent=text;}
+function message(text){setText('save-status',text);}
+// 只讀目前輸入框；空白或純空白視為沒填。
+function collect(){const a={};for(const t of topics){const n=field(t);if(!n)continue;const v=n.value.trim();if(v)a[t.id]=v;}return a;}
+function save(){
+if(!retention){message('填答只留在本頁；是否送達以Google確認頁為準。');return;}
+try{localStorage.setItem(KEY,JSON.stringify({schema:1,answers:collect(),current:0,savedAt:new Date().toISOString()}));message('草稿只存這台裝置；是否送達以Google確認頁為準。');}
+catch{message('本機無法保存；本頁答案仍在，送出後請看Google確認頁，勿直接重整。');}}
+function summary(answers){
+const rows=['沅川｜下一步需求填答','這是需求描述，不是正式執行/採購/發布核可。','填寫日期：'+new Date().toLocaleDateString('zh-TW'),''];
+for(const t of topics)if(answers[t.id])rows.push('【'+t.label+'】',answers[t.id],'');
+rows.push('只列已填主題；未填不代表同意，也不視為取消。','來源：v2單鍵需求頁；送達以Google確認頁及專案回覆紀錄為準。');
+return rows.join('\n');}
+function submit(){
+if(locked)return;
+const answers=collect(),filled=topics.filter(t=>answers[t.id]);
+if(!filled.length){setText('export-status','至少寫一個主題再送出；其他主題可先留白。');return;}
+save();
+const fields={
+'entry.1789974636':filled.length===1?filled[0].label:'多主題：'+filled.map(t=>t.label).join('、'),
+'entry.1266581977':summary(answers),
+'entry.963595698':SOURCE_TAG,
+'fvv':'1',
+'pageHistory':'0'};
+const form=document.createElement('form');
+try{
+form.method='POST';form.action=FORM_ACTION;form.target='_blank';form.setAttribute('rel','noopener noreferrer');form.style.display='none';
+for(const [name,value]of Object.entries(fields)){const input=document.createElement('input');input.type='hidden';input.name=name;input.value=value;form.append(input);}
+document.body.append(form);
+form.submit();
+}catch{
+form.remove();
+setText('export-status','未能開啟提交頁；答案仍在本頁，請確認沒有收到Google確認後再試，這次未標成成功。');
+return;}
+locked=true;
+const btn=$('send-request');if(btn)btn.disabled=true;
+message('原頁保留答案；是否送達以Google確認頁為準，若已確認請勿重複提交。');
+setText('export-status','正在另開Google確認頁；請以其「需求已收到」訊息為準。原頁保留答案，若已確認收到請勿重複送出。');
+setTimeout(()=>{locked=false;if(btn)btn.disabled=false;form.remove();},LOCK_MS);}
+// 綁定
+for(const t of topics){const n=field(t);if(n)n.addEventListener('input',save);}
+const remember=$('remember');
+if(remember)remember.onchange=()=>{
+retention=remember.checked;
+if(!retention){try{localStorage.removeItem(KEY);}catch{}message('已取消本機保存，本頁填答仍在；是否送達以Google確認頁為準。');}
+else save();};
+const sendBtn=$('send-request');
+if(sendBtn)sendBtn.onclick=submit;
+// 回讀舊草稿（schema 1；舊的 current 不使用）
+try{
+const raw=localStorage.getItem(KEY);
+if(raw){const d=JSON.parse(raw);
+if(d&&d.schema===1&&d.answers&&typeof d.answers==='object'){
+for(const t of topics){const n=field(t),v=d.answers[t.id];if(n&&typeof v==='string')n.value=v.slice(0,MAX_LEN);}
+retention=true;if(remember)remember.checked=true;
+message('已載入本機草稿；沒有從伺服器取回任何答案。');}}}
+catch{message('無法讀取本機草稿，可直接填寫並送出需求。');}
+const status=$('save-status');
+if(status&&!status.textContent)message('可只填一題後送出；以Google確認頁為準，原頁保留答案。');
 })();
